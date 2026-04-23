@@ -1,7 +1,10 @@
 from pipeline import fetch_anime_by_genre
 from aggregator import get_average_score
+from database import initialize_db
 
 def main():
+    initialize_db()
+    
     genres = {"action": 1, "comedy": 4, "romance": 22}
     
     action_anime = fetch_anime_by_genre(genres["action"], 4)
