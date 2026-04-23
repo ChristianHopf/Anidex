@@ -1,20 +1,20 @@
-import requests
-
-def fetch_top_anime(pages):
-    result = []
-    
-    for page in range(pages):
-        try:
-            response = requests.get(f'https://api.jikan.moe/v4/top/anime?page={page+1}')
-            body = response.json()
-            result.extend(body["data"])
-        except requests.exceptions.RequestException as err:
-            print(f"Error: {err}")
-    for anime in result:
-        print(anime["mal_id"])
+from pipeline import fetch_anime_by_genre
+from aggregator import get_average_score
 
 def main():
-    fetch_top_anime(2)
+    genres = {"action": 1, "comedy": 4, "romance": 22}
+    
+    action_anime = fetch_anime_by_genre(genres["action"], 4)
+    average_action_anime_score = get_average_score(action_anime)
+    print("Average action anime score: ", average_action_anime_score)
+    
+    comedy_anime = fetch_anime_by_genre(genres["comedy"], 4)
+    average_comedy_anime_score = get_average_score(comedy_anime)
+    print("Average comedy anime score: ", average_comedy_anime_score)
+    
+    romance_anime = fetch_anime_by_genre(genres["romance"], 4)
+    average_romance_anime_score = get_average_score(romance_anime)
+    print("Average romance anime score: ", average_romance_anime_score)
 
 if __name__ == "__main__":
     main()
